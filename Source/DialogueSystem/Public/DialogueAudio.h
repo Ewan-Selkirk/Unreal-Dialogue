@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "Sound/SoundWave.h"
 #include "DialogueAudio.generated.h"
 
 /**

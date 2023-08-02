@@ -3,10 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Kismet/GameplayStatics.h"
 #include "UObject/Object.h"
-#include "Engine.h"
+#include "Engine/Engine.h"
 #include "DialogueModifiers.generated.h"
+
+UENUM(BlueprintType)
+enum EPurchaseEvent
+{
+	Gliders				UMETA(DisplayName="Unlock the Gliders"),
+	Grapple				UMETA(DisplayName="Unlock the Grapple Tongue"),
+	Chameleon			UMETA(DisplayName="Unlock Cameleon"),
+	Egg					UMETA(DisplayName="Egg Purchased")
+};
 
 //~ Begin UDialogueType Declaration //
 /**
@@ -106,6 +114,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Instanced, BlueprintReadOnly, Category="Dialogue", meta=(EditCondition="Condition != nullptr", EditConditionHides, AllowedClasses="/Script/DialogueSystem.DialogueTypeRandom,/Script/DialogueSystem.DialogueTypeContinuous", ExactClass=true))
 	class UDialogueType* TypeAfterCondition;
+
+	virtual void Reset() override;
 };
 
 
@@ -120,6 +130,21 @@ public:
 	UPROPERTY(EditAnywhere, Instanced, Category="Dialogue")
 	TMap<class UDialogueTrigger*, class UDialogueType*> Conditions;
 
+};
+
+UCLASS(NotBlueprintable, MinimalAPI)
+class UDialogueTypeNoDialogue final : public UDialogueType
+{
+	GENERATED_BODY()
+
+public:
+	virtual FText GetLineOfDialogue(bool& bIsSuccessful) override
+	{
+		bIsSuccessful = false;
+		return FText::FromString("");
+	}
+
+	virtual bool ShouldDisplayOnce() override { return true; }
 };
 
 //~ End UDialogueType Declaration //
@@ -194,6 +219,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pay|Responses", meta=(DisplayAfter="DisplayText"))
 	FText PurchaseFailedResponse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pay")
+	TEnumAsByte<EPurchaseEvent> PurchaseEvent;
 };
 
 UCLASS(NotBlueprintable, MinimalAPI, meta=(DisplayName = "Conditional Response"))
@@ -209,5 +237,7 @@ public:
 	class UDialogueResponse* Response;
 
 	virtual bool CanAddToList() override { return Condition->CanDialogueTrigger(); }
+
+	virtual FText GetDisplayText() const override { return Response->GetDisplayText(); }
 };
 //~ End UDialogueResponse Declaration //

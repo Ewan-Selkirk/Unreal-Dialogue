@@ -3,7 +3,9 @@
 #include "DialogueSubsystem.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "Engine/AssetManager.h"
-#include "Engine.h"
+#include "Engine/World.h"
+#include "Engine/Engine.h"
+#include "UObject/UObjectIterator.h"
 
 DEFINE_LOG_CATEGORY(LogDialogue)
 

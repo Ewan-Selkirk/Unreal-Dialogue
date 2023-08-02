@@ -46,18 +46,22 @@ void UDialogueTypeContinuous::Reset()
 
 FText UDialogueTypeConditional::GetLineOfDialogue(bool& bIsSuccessful)
 {
-	
-	if (Condition->CanDialogueTrigger())
-	{
-		return TypeAfterCondition->GetLineOfDialogue(bIsSuccessful);
-	}
-	
-	return FailureDialogue->GetLineOfDialogue(bIsSuccessful);
+	return Condition->CanDialogueTrigger() ?
+		TypeAfterCondition->GetLineOfDialogue(bIsSuccessful) : FailureDialogue->GetLineOfDialogue(bIsSuccessful);
 }
 
 bool UDialogueTypeConditional::ShouldDisplayOnce()
 {
-	return Condition->CanDialogueTrigger();
+	return Condition->CanDialogueTrigger() ?
+		TypeAfterCondition->ShouldDisplayOnce() : FailureDialogue->ShouldDisplayOnce();
+}
+
+void UDialogueTypeConditional::Reset()
+{
+	Super::Reset();
+	if (TypeAfterCondition && TypeAfterCondition->IsValidLowLevel()) { TypeAfterCondition->Reset(); }
+	if (FailureDialogue && FailureDialogue->IsValidLowLevel()) { FailureDialogue->Reset(); }
+	
 }
 
 FText UDialogueTypeMultiConditional::GetLineOfDialogue(bool& bIsSuccessful)
