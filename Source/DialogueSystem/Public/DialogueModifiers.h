@@ -7,15 +7,6 @@
 #include "Engine/Engine.h"
 #include "DialogueModifiers.generated.h"
 
-UENUM(BlueprintType)
-enum EPurchaseEvent
-{
-	Gliders				UMETA(DisplayName="Unlock the Gliders"),
-	Grapple				UMETA(DisplayName="Unlock the Grapple Tongue"),
-	Chameleon			UMETA(DisplayName="Unlock Cameleon"),
-	Egg					UMETA(DisplayName="Egg Purchased")
-};
-
 //~ Begin UDialogueType Declaration //
 /**
  * Types of Dialogue
@@ -221,7 +212,7 @@ public:
 	FText PurchaseFailedResponse;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pay")
-	TEnumAsByte<EPurchaseEvent> PurchaseEvent;
+	uint8 PurchaseEvent;
 };
 
 UCLASS(NotBlueprintable, MinimalAPI, meta=(DisplayName = "Conditional Response"))

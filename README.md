@@ -52,6 +52,8 @@ Interact - A generic response that allows the
 
 Pay - Allows the user to purchase an item from an NPC. 
 Allows the user to define a cost, successful and unsuccessful purchase lines of dialogue, and an event to be broadcast upon successful purchase.
+This event can be implemented as an interface on a blueprint.
+It uses a byte as its type meaning it can be converted to an enum easily.
 
 Condition - Allows a response to be shown based on a condition.
 Takes a condition and a response type as parameters.
@@ -79,6 +81,7 @@ If the dialogue is skipped then the audio is cancelled.
 
 The above code is a small example of getting a line of dialogue from a character.
 Each time `Get Line of Dialogue` is called, an internal counter on the type object in incremented, allowing for the next `Get Line of Dialogue` call to fetch a different line of dialogue.
+For brevity I have removed any null checks, but there are many points in which you can check if the data is valid.
 
 ## Installation
 To install the plugin, a C++ project is needed in order to initially compile the plugin.

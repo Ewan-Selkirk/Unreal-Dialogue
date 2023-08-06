@@ -7,6 +7,21 @@
 #include "Engine/DataAsset.h"
 #include "DialogueObject.generated.h"
 
+UINTERFACE(MinimalAPI, Blueprintable, Category = "Dialogue|Pay")
+class UOnPurchaseSuccessful : public UInterface
+{
+	GENERATED_BODY()
+};
+
+class IOnPurchaseSuccessful
+{
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Dialogue|Pay")
+	void OnPurchaseSuccessful(uint8 EventIndex, uint8 Cost);
+};
+
 /**
  * 
  */
